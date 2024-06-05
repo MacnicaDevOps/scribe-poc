@@ -3,7 +3,6 @@ orbs:
   orbs: scribe-security/orbs@1.4.2
   scribe: scribe-security/orbs@1.4.2
 
-
 executors:
   builder:
     machine: true
