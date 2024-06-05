@@ -8,3 +8,4 @@ RUN npm install -g http-server
 HEALTHCHECK CMD curl http://localhost:8080 || exit 1
 CMD ["http-server"]
 EXPOSE 8080
+
