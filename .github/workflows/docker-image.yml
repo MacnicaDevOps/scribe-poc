@@ -24,12 +24,16 @@ jobs:
         docker stop web
 
     - name: "Twistlock Vuln/Compliance check"
+      env:
+        pc_user: ${{ secrets.PC_USER }}
+        pc_pass: ${{ secrets.PC_PASS }}
+        pc_url: ${{ secrets.PC_URL }}
       run: |
         curl -k -u "${pc_user}:${pc_pass}" --output twistcli "${pc_url}/api/v1/util/twistcli" 
         chmod a+x twistcli
         sudo ./twistcli images scan --address "${pc_url}" -u "${pc_user}" -p "${pc_pass}" "buildimage:${CIRCLE_BUILD_NUM}" --details
 
-    - name: "Triage vulnerabilities"
-      run: |
-        ./getPrismaData.sh
-        ./triage.sh
+#    - name: "Triage vulnerabilities"
+#      run: |
+#        ./getPrismaData.sh
+#        ./triage.sh
