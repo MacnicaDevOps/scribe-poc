@@ -41,9 +41,12 @@ jobs:
       - run:
           name: export KEY envs
           command:
-            echo $ATTEST_KEY_B64 | base64 -d | tr -d '\r' > key.pem
-            echo $ATTEST_CERT_B64 | base64 -d | tr -d '\r' > cert.pem
-            echo $ATTEST_CA_B64 | base64 -d | tr -d '\r' > ca.pem
+#            echo $ATTEST_KEY_B64 | base64 -d | tr -d '\r' > key.pem
+#            echo $ATTEST_CERT_B64 | base64 -d | tr -d '\r' > cert.pem
+#            echo $ATTEST_CA_B64 | base64 -d | tr -d '\r' > ca.pem
+            echo $ATTEST_KEY_B64 | base64 -d > key.pem
+            echo $ATTEST_CERT_B64 | base64 -d  > cert.pem
+            echo $ATTEST_CA_B64 | base64 -d  > ca.pem
             printenv
 
       - run:
