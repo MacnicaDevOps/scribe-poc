@@ -37,7 +37,15 @@ jobs:
       
     steps:
       - checkout
-                     
+
+      - run:
+          name: export KEY envs
+          command:
+            echo $ATTEST_KEY_B64 | base64 -d | tr -d '\r' > key.pem
+            echo $ATTEST_CERT_B64 | base64 -d | tr -d '\r' > cert.pem
+            echo $ATTEST_CA_B64 | base64 -d | tr -d '\r' > ca.pem
+            printenv
+
       - run:
           name: Build Image
           command: |
@@ -50,6 +58,12 @@ jobs:
           scribe-enable: true
           product-key: circle.pre-release.bom
           scribe-client-secret: $scribetoken
+          format: "attest"
+          attest-default: x509
+          key: key.pem
+          cert: cert.pem
+          ca: ca.pem
+
       - run:
           name: "simple test"
           command: |
