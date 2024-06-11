@@ -70,7 +70,7 @@ jobs:
           command: |
             docker run --rm --name web -p 8080:8080 -d "buildimage:${CIRCLE_BUILD_NUM}"
             sleep 1 && curl http://localhost:8080
-            docker stop web
+            docker stop web && docker rm web
 
       - run:
           name: "Twistlock Vuln/Compliance check"
