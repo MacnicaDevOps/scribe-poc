@@ -41,23 +41,24 @@ jobs:
       - run:
           name: export KEY envs
           command: |
-            echo $ATTEST_KEY_B64 | base64 -d | tr -d '\r' > key.pem
-            echo $ATTEST_CERT_B64 | base64 -d | tr -d '\r' > cert.pem
-            echo $ATTEST_CA_B64 | base64 -d | tr -d '\r' > ca.pem
+            echo ${ATTEST_KEY_B64} | base64 -d | tr -d '\r' > key.pem
+            echo ${ATTEST_CERT_B64} | base64 -d | tr -d '\r' > cert.pem
+            echo ${ATTEST_CA_B64} | base64 -d | tr -d '\r' > ca.pem
             printenv
 
       - run:
           name: Build Image
           command: |
-            docker login -u $docker_user -p $docker_pass
+            docker login -u ${docker_user} -p ${docker_pass}
             docker build --tag "buildimage:${CIRCLE_BUILD_NUM}" .
+
       - scribe/install
       - scribe/bom:
           target: "buildimage:${CIRCLE_BUILD_NUM}"
           verbose: 2
           scribe-enable: true
           product-key: circle.pre-release.bom
-          scribe-client-secret: $scribetoken
+          scribe-client-secret: ${scribetoken}
           format: "attest"
           attest-default: x509
           key: key.pem
